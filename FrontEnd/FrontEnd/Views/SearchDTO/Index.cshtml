@@ -1,0 +1,191 @@
+﻿@model IEnumerable<FrontEnd.Models.SearchDTO>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .closebtn:hover {
+                color: black;
+            }
+
+        table {
+            margin-top: 25px;
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+
+
+        input {
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            width: 100%;
+            border-width: 1px;
+            /*border: 2px solid red;*/
+            border-radius: 2px;
+ 
+            }
+
+        div3 {
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            /*b*/ order: 1px solid black;
+            padding: 20px;
+            width: 200px;
+            height: 200px;
+            text-align: justify;
+            
+        }
+    </style>
+</head>
+
+
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Postal Code <input type="text" name="SearchString" classes="btn btn-default" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" />
+
+            @if (ViewBag.dist == false || ViewBag.dist == null)
+            {
+                <div3>
+                    <label style="margin-top: 25px;">
+                        
+                        <span>Check for KM results </span>
+                        <input id="responsable" name="checkResp" value="false" type="checkbox" />
+                    </label>
+                </div3>
+            }
+            else
+            {
+                <div3>
+                    <label style="margin-top: 25px;">
+                        
+                        <span>Check for KM results </span>
+
+                        <input id="responsable" name="checkResp" value="true" type="checkbox" checked="checked" />
+                        @*<th>Distance (KM)</th>*@
+                    </label>
+                </div3>
+            }
+
+
+
+        </p>
+
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PostCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Region)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Latitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Longitude)
+            </th>
+            @if (ViewBag.dist == false || ViewBag.dist == null)
+            {
+
+                <th>Distance to Heathrow airport (MILES)</th>
+
+            }
+            else
+            {
+
+                <th>Distance to Heathrow airport (KM)</th>
+
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PostCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Region)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Latitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Longitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DistanceToLondon)
+                    </td>
+
+                </tr>
+
+            }
+        }
+    </tbody>
+</table>
+@{ if (ViewBag.codebool == false)
+
+    {
+
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>ERROR!</strong> Postal Code not Found (Check if API SERVICE is ON)
+        </div>
+    }
+
+
+}
+
+
+
+
+
+
